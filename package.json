@@ -1,0 +1,28 @@
+{
+  "name": "phaser3-poc",
+  "version": "1.0.0",
+  "description": "testing JS modularity capabilities and \"context switching\" of content in a single .html file",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladislavglad/Phaser3-PoC.git"
+  },
+  "keywords": [
+    "PoC"
+  ],
+  "author": "Vladislav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladislavglad/Phaser3-PoC/issues"
+  },
+  "homepage": "https://github.com/vladislavglad/Phaser3-PoC#readme",
+  "dependencies": {
+    "http-server": "^0.12.1"
+  },
+  "devDependencies": {
+    "phaser": "^3.22.0"
+  }
+}

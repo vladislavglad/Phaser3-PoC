@@ -1,2 +1,2 @@
 # Phaser3-PoC
-Testing some concepts in Phaser3
+Testing JS modularity capabilities and "context switching" of content in a single .html file.
