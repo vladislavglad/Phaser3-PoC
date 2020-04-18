@@ -42,9 +42,11 @@ class GameWorld extends Phaser.Scene {
             if (diffX < 0) {
                 this.enemy.scaleX = 1;
                 this.enemy.setVelocityX(this.speed);
+                this.enemy.flipX = false;
             } else {
                 this.enemy.scaleX = 1;
                 this.enemy.setVelocityX(-this.speed);
+                this.enemy.flipX = true;
             }
             //Move Y
             if (diffY < 0) {
