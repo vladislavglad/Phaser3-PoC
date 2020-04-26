@@ -1,6 +1,10 @@
 class GameWorld extends Phaser.Scene {
     constructor() {
         super("GameWorld");
+
+        this.player = null;
+        this.cursors = null;
+        this.enemy = null;
     }
 
     create() {
@@ -9,7 +13,7 @@ class GameWorld extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         //Workaround to reuse code.
-        this.MovementManager = new MovementManager(this.player, this.cursors);
+        this.MovementManager = new MovementManager(this);
 
         this.physics.world.bounds.width = config.width;
         this.physics.world.bounds.height = config.height;
@@ -19,13 +23,14 @@ class GameWorld extends Phaser.Scene {
         this.speed = 40;
 
         //Enemy movement engine.
-        this.time.addEvent({
-            delay: 500,
-            callback: this.moveEnemy,
-            callbackScope: this,
-            repeat: Infinity,
-            startAt: 2000,
-        });
+        this.MovementManager.enemyMovementManager();
+        // this.time.addEvent({
+        //     delay: 500,
+        //     callback: this.moveEnemy,
+        //     callbackScope: this,
+        //     repeat: Infinity,
+        //     startAt: 2000,
+        // });
     }
 
     update() {
@@ -33,7 +38,7 @@ class GameWorld extends Phaser.Scene {
         this.MovementManager.playerMovementManager();
     }
 
-    moveEnemy() { 
+    moveEnemy_local() { 
         if (this.enemy.active) {
             let diffX = this.enemy.x - this.player.x;
             let diffY = this.enemy.y - this.player.y;
