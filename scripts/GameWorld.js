@@ -19,18 +19,21 @@ class GameWorld extends Phaser.Scene {
         this.physics.world.bounds.height = config.height;
         this.player.setCollideWorldBounds();
 
+        this.enemies = []
         this.enemy = this.physics.add.sprite(20, 20, "baddie", 3);
+        this.enemy2 = this.physics.add.sprite(config.width - 20, 20, "baddie", 3);
+        this.enemies.push(this.enemy, this.enemy2);
         this.speed = 40;
 
         //Enemy movement engine.
-        this.MovementManager.enemyMovementManager();
-        // this.time.addEvent({
-        //     delay: 500,
-        //     callback: this.moveEnemy,
-        //     callbackScope: this,
-        //     repeat: Infinity,
-        //     startAt: 2000,
-        // });
+        //this.MovementManager.enemyMovementManager();
+        this.time.addEvent({
+            delay: 500,
+            callback: this.moveEnemies,
+            callbackScope: this,
+            repeat: Infinity,
+            startAt: 2000,
+        });
     }
 
     update() {
@@ -38,28 +41,34 @@ class GameWorld extends Phaser.Scene {
         this.MovementManager.playerMovementManager();
     }
 
-    moveEnemy_local() { 
-        if (this.enemy.active) {
-            let diffX = this.enemy.x - this.player.x;
-            let diffY = this.enemy.y - this.player.y;
+    moveEnemies() {
+        this.enemies.forEach(enemy => {
+            this.moveEnemy_local(enemy);
+        });
+    }
+
+    moveEnemy_local(enemy) { 
+        if (enemy.active) {
+            let diffX = enemy.x - this.player.x;
+            let diffY = enemy.y - this.player.y;
 
             //Move X
             if (diffX < 0) {
-                this.enemy.scaleX = 1;
-                this.enemy.setVelocityX(this.speed);
-                this.enemy.flipX = false;
+                enemy.scaleX = 1;
+                enemy.setVelocityX(this.speed);
+                enemy.flipX = false;
             } else {
-                this.enemy.scaleX = 1;
-                this.enemy.setVelocityX(-this.speed);
-                this.enemy.flipX = true;
+                enemy.scaleX = 1;
+                enemy.setVelocityX(-this.speed);
+                enemy.flipX = true;
             }
             //Move Y
             if (diffY < 0) {
-                this.enemy.scaleY = 1;
-                this.enemy.setVelocityY(this.speed);
+                enemy.scaleY = 1;
+                enemy.setVelocityY(this.speed);
             } else {
-                this.enemy.scaleY = 1;
-                this.enemy.setVelocityY(-this.speed);
+                enemy.scaleY = 1;
+                enemy.setVelocityY(-this.speed);
             }
         }
     }
