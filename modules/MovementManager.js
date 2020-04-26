@@ -58,8 +58,8 @@ class MovementManager {
     }
 
     createLocalEnemyReference() {
-        if (this.scene.enemy != null) {
-            this.enemy = this.scene.enemy;
+        if (this.scene.enemies != null) {
+            this.enemies = this.scene.enemies;
             this.speed = this.scene.speed;
             this.localEnemyReferenceCreated = true;
         }
@@ -68,40 +68,51 @@ class MovementManager {
     enemyMovementManager() {
         this.scene.time.addEvent({
             delay: 500,
-            callback: this.moveEnemy,
+            callback: this.moveEnemies,
             callbackScope: this,
             repeat: Infinity,
             startAt: 2000,
         });
     }
 
-    moveEnemy() { 
+    moveEnemies() {
+        if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
+            this.enemies.forEach(enemy => {
+                this.moveEnemy(enemy); 
+             });
+        } else {
+            this.createLocalPlayerReference();
+            this.createLocalEnemyReference();
+        }
+    }
+
+    moveEnemy(enemy) { 
         if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
 
-            if (this.enemy.active) {
-                let diffX = this.enemy.x - this.player.x;
-                let diffY = this.enemy.y - this.player.y;
+            if (enemy.active) {
+                let diffX = enemy.x - this.player.x;
+                let diffY = enemy.y - this.player.y;
 
                 //Move X
                 if (diffX < 0) {
-                    this.enemy.scaleX = 1;
-                    this.enemy.setVelocityX(this.speed);
-                    this.enemy.flipX = false;
+                    enemy.scaleX = 1;
+                    enemy.setVelocityX(this.speed);
+                    enemy.flipX = false;
                 } else {
-                    this.enemy.scaleX = 1;
-                    this.enemy.setVelocityX(-this.speed);
-                    this.enemy.flipX = true;
+                    enemy.scaleX = 1;
+                    enemy.setVelocityX(-this.speed);
+                    enemy.flipX = true;
                 }
                 //Move Y
                 if (diffY < 0) {
-                    this.enemy.scaleY = 1;
-                    this.enemy.setVelocityY(this.speed);
+                    enemy.scaleY = 1;
+                    enemy.setVelocityY(this.speed);
                 } else {
-                    this.enemy.scaleY = 1;
-                    this.enemy.setVelocityY(-this.speed);
+                    enemy.scaleY = 1;
+                    enemy.setVelocityY(-this.speed);
                 }
             }
-            
+
         } else {
             this.createLocalPlayerReference();    
             this.createLocalEnemyReference();    

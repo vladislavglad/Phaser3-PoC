@@ -2,9 +2,10 @@ class GameWorld extends Phaser.Scene {
     constructor() {
         super("GameWorld");
 
+        //Have to initialize these to be able to use MovementManager class.
         this.player = null;
         this.cursors = null;
-        this.enemy = null;
+        this.enemies = null;
     }
 
     create() {
@@ -12,7 +13,10 @@ class GameWorld extends Phaser.Scene {
         this.player = this.physics.add.sprite(config.width/2 ,config.height/2, "player");
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        //Workaround to reuse code.
+        /*
+        MovementManager - is a universal class that manages player/enemy movement.
+        (Introduced as a workaround to reuse code)
+        */
         this.MovementManager = new MovementManager(this);
 
         this.physics.world.bounds.width = config.width;
@@ -20,20 +24,20 @@ class GameWorld extends Phaser.Scene {
         this.player.setCollideWorldBounds();
 
         this.enemies = []
-        this.enemy = this.physics.add.sprite(20, 20, "baddie", 3);
-        this.enemy2 = this.physics.add.sprite(config.width - 20, 20, "baddie", 3);
-        this.enemies.push(this.enemy, this.enemy2);
+        let enemy = this.physics.add.sprite(20, 20, "baddie", 3);
+        let enemy2 = this.physics.add.sprite(config.width - 20, 20, "baddie", 3);
+        this.enemies.push(enemy, enemy2);
         this.speed = 40;
 
         //Enemy movement engine.
-        //this.MovementManager.enemyMovementManager();
-        this.time.addEvent({
-            delay: 500,
-            callback: this.moveEnemies,
-            callbackScope: this,
-            repeat: Infinity,
-            startAt: 2000,
-        });
+        this.MovementManager.enemyMovementManager();
+        // this.time.addEvent({
+        //     delay: 500,
+        //     callback: this.moveEnemies,
+        //     callbackScope: this,
+        //     repeat: Infinity,
+        //     startAt: 2000,
+        // });
     }
 
     update() {
@@ -41,7 +45,7 @@ class GameWorld extends Phaser.Scene {
         this.MovementManager.playerMovementManager();
     }
 
-    moveEnemies() {
+    moveEnemies_local() {
         this.enemies.forEach(enemy => {
             this.moveEnemy_local(enemy);
         });
