@@ -22,7 +22,7 @@ var config = {
     },
     
     //Array of all Scenes that Phaser sees and will use.
-    scene: [PreloadAssets, GameWorld]
+    scene: [PreloadAssets, GameWorld, GameModule]
 };
 
 /**

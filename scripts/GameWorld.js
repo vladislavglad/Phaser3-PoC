@@ -1,3 +1,6 @@
+const AGGRO_RADIUS = 120;
+const ENEMY_SPEED = 40;
+
 class GameWorld extends Phaser.Scene {
     constructor() {
         super("GameWorld");
@@ -30,14 +33,14 @@ class GameWorld extends Phaser.Scene {
         this.speed = 40;
 
         //Enemy movement engine.
-        this.MovementManager.enemyMovementManager();
-        // this.time.addEvent({
-        //     delay: 500,
-        //     callback: this.moveEnemies,
-        //     callbackScope: this,
-        //     repeat: Infinity,
-        //     startAt: 2000,
-        // });
+        //this.MovementManager.enemyMovementManager();
+        this.time.addEvent({
+            delay: 500,
+            callback: this.moveEnemies_local,
+            callbackScope: this,
+            repeat: Infinity,
+            startAt: 2000,
+        });
     }
 
     update() {
@@ -47,7 +50,10 @@ class GameWorld extends Phaser.Scene {
 
     moveEnemies_local() {
         this.enemies.forEach(enemy => {
-            this.moveEnemy_local(enemy);
+            if (this.shouldChase(enemy))
+                this.moveEnemy_local(enemy);
+            else 
+                enemy.setVelocity(0,0);
         });
     }
 
@@ -59,21 +65,37 @@ class GameWorld extends Phaser.Scene {
             //Move X
             if (diffX < 0) {
                 enemy.scaleX = 1;
-                enemy.setVelocityX(this.speed);
+                enemy.setVelocityX(ENEMY_SPEED);
                 enemy.flipX = false;
             } else {
                 enemy.scaleX = 1;
-                enemy.setVelocityX(-this.speed);
+                enemy.setVelocityX(-ENEMY_SPEED);
                 enemy.flipX = true;
             }
             //Move Y
             if (diffY < 0) {
                 enemy.scaleY = 1;
-                enemy.setVelocityY(this.speed);
+                enemy.setVelocityY(ENEMY_SPEED);
             } else {
                 enemy.scaleY = 1;
-                enemy.setVelocityY(-this.speed);
+                enemy.setVelocityY(-ENEMY_SPEED);
             }
         }
+    }
+
+    shouldChase(enemy) {
+        //Current central coordinates: x and y.
+        let playerPosition = this.player.getCenter();
+        let enemyPosition = enemy.getCenter();
+
+        //Get distance between the two entities.
+        let currentDistance = enemyPosition.distance(playerPosition);
+        //console.log(currentDistance);
+
+        if (currentDistance < AGGRO_RADIUS) {
+            //console.log("Should Chase");
+            return true;
+        } else 
+            return false;
     }
 }
