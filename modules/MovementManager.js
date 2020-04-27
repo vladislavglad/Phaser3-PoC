@@ -1,3 +1,5 @@
+const speed = 0.9;
+
 class MovementManager {
     constructor(scene) {
         this.scene = scene;
@@ -66,13 +68,7 @@ class MovementManager {
     }
 
     enemyMovementManager() {
-        this.scene.time.addEvent({
-            delay: 500,
-            callback: this.moveEnemies,
-            callbackScope: this,
-            repeat: Infinity,
-            startAt: 2000,
-        });
+        this.moveEnemies();
     }
 
     moveEnemies() {
@@ -94,20 +90,20 @@ class MovementManager {
             //Move X
             if (diffX < 0) {
                 enemy.scaleX = 1;
-                enemy.x += this.speed;
+                enemy.x += speed;
                 enemy.flipX = false;
             } else {
                 enemy.scaleX = 1;
-                enemy.x -= this.speed;
+                enemy.x -= speed;
                 enemy.flipX = true;
             }
             //Move Y
             if (diffY < 0) {
                 enemy.scaleY = 1;
-                enemy.y += this.speed;
+                enemy.y += speed;
             } else {
                 enemy.scaleY = 1;
-                enemy.y -= this.speed;
+                enemy.y -= speed;
             }
         }
     }

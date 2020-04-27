@@ -27,23 +27,12 @@ class GameWorld extends Phaser.Scene {
         let enemy = this.physics.add.sprite(20, 20, "baddie", 3);
         let enemy2 = this.physics.add.sprite(config.width - 20, 20, "baddie", 3);
         this.enemies.push(enemy, enemy2);
-        this.speed = 0.9;
-
-        //Enemy movement engine.
-        //this.MovementManager.moveEnemies();
-        // this.time.addEvent({
-        //     delay: 500,
-        //     callback: this.moveEnemies_local,
-        //     callbackScope: this,
-        //     repeat: Infinity,
-        //     startAt: 2000,
-        // });
     }
 
     update() {
         //here should go player movement manager that would be imported from a universal module.
         this.MovementManager.playerMovementManager();
-        this.MovementManager.moveEnemies();
+        this.MovementManager.enemyMovementManager();
     }
 
     moveEnemies_local() {
