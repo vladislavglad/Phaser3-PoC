@@ -8,7 +8,7 @@ class GameModule extends Phaser.Scene {
 
         //Exit placeholder.
         this.time.addEvent({delay: 2000, repeat: true, callback: () => {
-            this.scene.switch("WorldScene");
+            this.scene.switch("GameWorld");
         }, callbackScope: this});
     }
 }

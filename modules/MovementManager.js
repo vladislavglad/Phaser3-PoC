@@ -118,4 +118,11 @@ class MovementManager {
             this.createLocalEnemyReference();    
         }    
     }
+
+    resetCursors() {
+        this.cursors.left.reset();
+        this.cursors.right.reset();
+        this.cursors.up.reset();
+        this.cursors.down.reset();
+    }
 }

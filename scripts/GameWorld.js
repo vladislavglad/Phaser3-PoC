@@ -32,6 +32,12 @@ class GameWorld extends Phaser.Scene {
         this.enemies.push(enemy, enemy2);
         this.speed = 40;
 
+        this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
+            enemy.active = false;
+            enemy.disableBody();
+            this.scene.switch("GameModule");
+        }, null, this);
+
         //Enemy movement engine.
         //this.MovementManager.enemyMovementManager();
         this.time.addEvent({
@@ -41,6 +47,8 @@ class GameWorld extends Phaser.Scene {
             repeat: Infinity,
             startAt: 2000,
         });
+
+        this.events.on("wake", this.onWakeUp, this);
     }
 
     update() {
@@ -97,5 +105,9 @@ class GameWorld extends Phaser.Scene {
             return true;
         } else 
             return false;
+    }
+
+    onWakeUp() {
+        this.MovementManager.resetCursors();
     }
 }
