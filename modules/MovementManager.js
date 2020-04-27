@@ -85,37 +85,30 @@ class MovementManager {
             this.createLocalEnemyReference();
         }
     }
-
+    
     moveEnemy(enemy) { 
-        if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
-
-            if (enemy.active) {
-                let diffX = enemy.x - this.player.x;
-                let diffY = enemy.y - this.player.y;
-
-                //Move X
-                if (diffX < 0) {
-                    enemy.scaleX = 1;
-                    enemy.setVelocityX(this.speed);
-                    enemy.flipX = false;
-                } else {
-                    enemy.scaleX = 1;
-                    enemy.setVelocityX(-this.speed);
-                    enemy.flipX = true;
-                }
-                //Move Y
-                if (diffY < 0) {
-                    enemy.scaleY = 1;
-                    enemy.setVelocityY(this.speed);
-                } else {
-                    enemy.scaleY = 1;
-                    enemy.setVelocityY(-this.speed);
-                }
+        if (enemy.active) {
+            let diffX = enemy.getCenter().x - this.player.getCenter().x;
+            let diffY = enemy.getCenter().y - this.player.getCenter().y;
+            
+            //Move X
+            if (diffX < 0) {
+                enemy.scaleX = 1;
+                enemy.x += this.speed;
+                enemy.flipX = false;
+            } else {
+                enemy.scaleX = 1;
+                enemy.x -= this.speed;
+                enemy.flipX = true;
             }
-
-        } else {
-            this.createLocalPlayerReference();    
-            this.createLocalEnemyReference();    
-        }    
+            //Move Y
+            if (diffY < 0) {
+                enemy.scaleY = 1;
+                enemy.y += this.speed;
+            } else {
+                enemy.scaleY = 1;
+                enemy.y -= this.speed;
+            }
+        }
     }
 }
