@@ -33,9 +33,13 @@ class GameWorld extends Phaser.Scene {
         this.enemies.push(enemy, enemy2);
 
         this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
+            //this.cameras.main.shake(300);
             enemy.active = false;
             enemy.disableBody();
             this.scene.switch("GameModule");
+
+            //From within scheduler.js
+            hideContent();
         }, null, this);
 
         //Enemy movement engine.
