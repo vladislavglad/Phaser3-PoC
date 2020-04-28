@@ -1,4 +1,5 @@
 const AGGRO_RADIUS = 120;
+const REACTIVATION_RADIUS = 50;
 const ENEMY_SPEED = 40;
 
 class GameWorld extends Phaser.Scene {
@@ -40,13 +41,7 @@ class GameWorld extends Phaser.Scene {
 
         //Enemy movement engine.
         //this.MovementManager.enemyMovementManager();
-        this.time.addEvent({
-            delay: 500,
-            callback: this.moveEnemies_local,
-            callbackScope: this,
-            repeat: Infinity,
-            startAt: 2000,
-        });
+        this.initiateEnemy_local();
 
         this.events.on("wake", this.onWakeUp, this);
     }
@@ -54,6 +49,16 @@ class GameWorld extends Phaser.Scene {
     update() {
         //here should go player movement manager that would be imported from a universal module.
         this.MovementManager.playerMovementManager();
+    }
+
+    initiateEnemy_local() {
+        this.time.addEvent({
+            delay: 500,
+            callback: this.moveEnemies_local,
+            callbackScope: this,
+            repeat: Infinity,
+            startAt: 2000,
+        });
     }
 
     moveEnemies_local() {
@@ -88,16 +93,12 @@ class GameWorld extends Phaser.Scene {
                 enemy.scaleY = 1;
                 enemy.setVelocityY(-ENEMY_SPEED);
             }
-        }
+        } else 
+            this.reactivateEntity(enemy);
     }
 
     shouldChase(enemy) {
-        //Current central coordinates: x and y.
-        let playerPosition = this.player.getCenter();
-        let enemyPosition = enemy.getCenter();
-
-        //Get distance between the two entities.
-        let currentDistance = enemyPosition.distance(playerPosition);
+        let currentDistance = this.getDistanceToPlayer(enemy);
         //console.log(currentDistance);
 
         if (currentDistance < AGGRO_RADIUS) {
@@ -105,6 +106,30 @@ class GameWorld extends Phaser.Scene {
             return true;
         } else 
             return false;
+    }
+
+    getDistanceToPlayer(entity) {
+        //Current central coordinates: x and y.
+        let playerPosition = this.player.getCenter();
+        let entityPosition = entity.getCenter();
+
+        //Get distance between the two entities.
+        return entityPosition.distance(playerPosition);
+    }
+
+    reactivateEntity(entity) {
+        if (this.shouldReactivate(entity)) {
+            entity.active = true;
+            entity.enableBody();
+        } else return;
+    }
+
+    shouldReactivate(entity) {
+        let currentDistance = this.getDistanceToPlayer(entity);
+
+        if (currentDistance > REACTIVATION_RADIUS) {
+            return true;
+        } else return false;
     }
 
     onWakeUp() {
