@@ -1,6 +1,6 @@
-const AGGRO_RADIUS = 120;
-const REACTIVATION_RADIUS = 50;
-const ENEMY_SPEED = 40;
+// const AGGRO_RADIUS = 120;
+// const REACTIVATION_RADIUS = 50;
+// const ENEMY_SPEED = 40;
 
 class GameWorld extends Phaser.Scene {
     constructor() {
@@ -31,7 +31,6 @@ class GameWorld extends Phaser.Scene {
         let enemy = this.physics.add.sprite(20, 20, "baddie", 3);
         let enemy2 = this.physics.add.sprite(config.width - 20, 20, "baddie", 3);
         this.enemies.push(enemy, enemy2);
-        this.speed = 40;
 
         this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
             enemy.active = false;
@@ -40,8 +39,7 @@ class GameWorld extends Phaser.Scene {
         }, null, this);
 
         //Enemy movement engine.
-        //this.MovementManager.enemyMovementManager();
-        this.initiateEnemy_local();
+        this.MovementManager.initiateEnemy();
 
         this.events.on("wake", this.onWakeUp, this);
     }

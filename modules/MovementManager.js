@@ -1,3 +1,7 @@
+const AGGRO_RADIUS = 120;
+const REACTIVATION_RADIUS = 50;
+const ENEMY_SPEED = 40;
+
 class MovementManager {
     constructor(scene) {
         this.scene = scene;
@@ -60,9 +64,12 @@ class MovementManager {
     createLocalEnemyReference() {
         if (this.scene.enemies != null) {
             this.enemies = this.scene.enemies;
-            this.speed = this.scene.speed;
             this.localEnemyReferenceCreated = true;
         }
+    }
+
+    initiateEnemy() {
+        this.enemyMovementManager();
     }
 
     enemyMovementManager() {
@@ -78,8 +85,11 @@ class MovementManager {
     moveEnemies() {
         if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
             this.enemies.forEach(enemy => {
-                this.moveEnemy(enemy); 
-             });
+                if (this.shouldChase(enemy))
+                    this.moveEnemy(enemy); 
+                else 
+                    enemy.setVelocity(0,0);
+            });
         } else {
             this.createLocalPlayerReference();
             this.createLocalEnemyReference();
@@ -96,27 +106,62 @@ class MovementManager {
                 //Move X
                 if (diffX < 0) {
                     enemy.scaleX = 1;
-                    enemy.setVelocityX(this.speed);
+                    enemy.setVelocityX(ENEMY_SPEED);
                     enemy.flipX = false;
                 } else {
                     enemy.scaleX = 1;
-                    enemy.setVelocityX(-this.speed);
+                    enemy.setVelocityX(-ENEMY_SPEED);
                     enemy.flipX = true;
                 }
                 //Move Y
                 if (diffY < 0) {
                     enemy.scaleY = 1;
-                    enemy.setVelocityY(this.speed);
+                    enemy.setVelocityY(ENEMY_SPEED);
                 } else {
                     enemy.scaleY = 1;
-                    enemy.setVelocityY(-this.speed);
+                    enemy.setVelocityY(-ENEMY_SPEED);
                 }
-            }
-
+            } else 
+                this.reactivateEntity(enemy);
         } else {
             this.createLocalPlayerReference();    
             this.createLocalEnemyReference();    
         }    
+    }
+
+    shouldChase(enemy) {
+        let currentDistance = this.getDistanceToPlayer(enemy);
+        //console.log(currentDistance);
+
+        if (currentDistance < AGGRO_RADIUS) {
+            //console.log("Should Chase");
+            return true;
+        } else 
+            return false;
+    }
+
+    getDistanceToPlayer(entity) {
+        //Current central coordinates: x and y.
+        let playerPosition = this.player.getCenter();
+        let entityPosition = entity.getCenter();
+
+        //Get distance between the two entities.
+        return entityPosition.distance(playerPosition);
+    }
+
+    reactivateEntity(entity) {
+        if (this.shouldReactivate(entity)) {
+            entity.active = true;
+            entity.enableBody();
+        } else return;
+    }
+
+    shouldReactivate(entity) {
+        let currentDistance = this.getDistanceToPlayer(entity);
+
+        if (currentDistance > REACTIVATION_RADIUS) {
+            return true;
+        } else return false;
     }
 
     resetCursors() {
