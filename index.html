@@ -10,6 +10,7 @@
 
     <!-- Load Utility Modules -->
     <script src="modules/MovementManager.js"></script>
+    <script src="modules/EnemyObject.js"></script>
 
     <!-- Game setup and scripts -->
     <script src="scripts/PreloadAssets.js"></script>
@@ -28,10 +29,13 @@
 
     <!-- Other "game" modules (made in any framework)-->
     <div class="module" id="myDiv1" style="background-color:lightblue">
-        <div style="font-size: 60px;">Something cool! </div><br>
-        <button style="font-size: xx-large;" onclick="displayContent()">Click me!</button>
+        <div style="font-size: 60px;">Something cool!</div><br>
+        <button style="font-size: xx-large;" onclick="switchContent('myDiv1', 'gameContainer')">Click me!</button>
     </div>
-    <div class="module" id="myDiv2" style="background-color:lightgreen">Something else</div>
-
+    <div class="module" id="myDiv2" style="background-color:lightgreen">
+        <div style="font-size: 60px;">Something else</div><br>
+        <button style="font-size: xx-large;" onclick="switchContent('myDiv2', 'gameContainer')">Click me!</button>
+    </div>
+    
 </body>
 </html>
