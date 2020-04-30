@@ -31,5 +31,7 @@ var config = {
  * The above will be seen across all JS files.
  */
 let isFinishedLoading = false;
+let globalEnemyContainer = null;
+let currentContentID = null;
 
 let game = new Phaser.Game(config);

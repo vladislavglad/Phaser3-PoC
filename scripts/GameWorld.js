@@ -36,13 +36,16 @@ class GameWorld extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
             //this.cameras.main.shake(300);
 
+            //IMPORTANT: allows the game world to know what is being presented.
+            currentContentID = enemy.moduleID;
+
             if (enemy.moduleID === 0)
                 switchTo("myDiv1"); //called from within scheduler.js
             else if (enemy.moduleID === 1)
                 switchTo("myDiv2");
             
             enemy.active = false;
-            //enemy.setVisible(false);
+            enemy.setVisible(false);
             enemy.disableBody();
             //this.scene.switch("GameModule");
         }, null, this);

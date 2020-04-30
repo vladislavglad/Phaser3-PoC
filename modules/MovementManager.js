@@ -61,10 +61,12 @@ class MovementManager {
         }
     }
 
+    //Also creates a global reference.
     createLocalEnemyReference() {
         if (this.scene.enemies != null) {
             this.enemies = this.scene.enemies;
             this.localEnemyReferenceCreated = true;
+            globalEnemyContainer = this.enemies;
         }
     }
 
@@ -99,7 +101,7 @@ class MovementManager {
     moveEnemy(enemy) { 
         if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
 
-            if (enemy.active) {
+            if (enemy.active && !enemy.defeated) {
                 let diffX = enemy.x - this.player.x;
                 let diffY = enemy.y - this.player.y;
 
@@ -152,11 +154,14 @@ class MovementManager {
     reactivateEntity(entity) {
         if (this.shouldReactivate(entity)) {
             entity.active = true;
+            entity.setVisible(true);
             entity.enableBody();
         } else return;
     }
 
     shouldReactivate(entity) {
+        if (entity.defeated) return false;
+
         let currentDistance = this.getDistanceToPlayer(entity);
 
         if (currentDistance > REACTIVATION_RADIUS) {

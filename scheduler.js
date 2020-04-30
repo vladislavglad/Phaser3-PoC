@@ -1,6 +1,10 @@
 const WORLD_CONTAINER = document.getElementById("gameContainer"); 
 const GAME_MODULES = document.getElementsByClassName("gameModule");
 
+function initializeGameWorld(scene) {
+    gameWorldReference = scene;
+}
+
 function hideContent() {
     WORLD_CONTAINER.style.display = "none";
     document.getElementById("myDiv1").style.display = "block";
@@ -27,4 +31,10 @@ function switchBack() {
         GAME_MODULES[i].style.display = "none";
     }
     WORLD_CONTAINER.style.display = "block";
+    currentContentID = null;
+}
+
+function switchWithCondition(completed) {
+    globalEnemyContainer[currentContentID].defeated = completed;
+    switchBack();
 }
