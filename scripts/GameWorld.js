@@ -37,11 +37,12 @@ class GameWorld extends Phaser.Scene {
             //this.cameras.main.shake(300);
 
             if (enemy.moduleID === 0)
-                switchContent("gameContainer", "myDiv1"); //called from within scheduler.js
+                switchTo("myDiv1"); //called from within scheduler.js
             else if (enemy.moduleID === 1)
-                switchContent("gameContainer", "myDiv2");
-
+                switchTo("myDiv2");
+            
             enemy.active = false;
+            //enemy.setVisible(false);
             enemy.disableBody();
             //this.scene.switch("GameModule");
         }, null, this);

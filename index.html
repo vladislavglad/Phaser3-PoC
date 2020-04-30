@@ -21,20 +21,26 @@
     <script src="config.js"></script>
 
     <!-- Content Scheduler -->
-    <script src="scheduler.js"></script>
+    <script defer src="scheduler.js"></script>
 </head>
 <body>
     <!-- Whole game world (made in Phaser3) -->
     <div id="gameContainer"></div>
 
     <!-- Other "game" modules (made in any framework)-->
-    <div class="module" id="myDiv1" style="background-color:lightblue">
+    <div class="gameModule" id="myDiv1" style="background-color:lightblue">
         <div style="font-size: 60px;">Something cool!</div><br>
-        <button style="font-size: xx-large;" onclick="switchContent('myDiv1', 'gameContainer')">Click me!</button>
+        <span>
+            <button style="font-size: xx-large;" onclick="switchBack()">Correct</button>
+            <button style="font-size: xx-large;">Wrong</button>
+        </span>
     </div>
-    <div class="module" id="myDiv2" style="background-color:lightgreen">
+    <div class="gameModule" id="myDiv2" style="background-color:lightgreen">
         <div style="font-size: 60px;">Something else</div><br>
-        <button style="font-size: xx-large;" onclick="switchContent('myDiv2', 'gameContainer')">Click me!</button>
+        <span>
+            <button style="font-size: xx-large;" onclick="switchBack()">Correct</button>
+            <button style="font-size: xx-large;">Wrong</button>
+        </span>
     </div>
     
 </body>
