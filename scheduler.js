@@ -1,10 +1,6 @@
 const WORLD_CONTAINER = document.getElementById("gameContainer"); 
 const GAME_MODULES = document.getElementsByClassName("gameModule");
 
-function initializeGameWorld(scene) {
-    gameWorldReference = scene;
-}
-
 function hideContent() {
     WORLD_CONTAINER.style.display = "none";
     document.getElementById("myDiv1").style.display = "block";

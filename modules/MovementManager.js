@@ -86,12 +86,17 @@ class MovementManager {
 
     moveEnemies() {
         if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
+
             this.enemies.forEach(enemy => {
-                if (this.shouldChase(enemy))
-                    this.moveEnemy(enemy); 
-                else 
-                    enemy.setVelocity(0,0);
+                if (enemy.active) {
+                    if (this.shouldChase(enemy))
+                        this.moveEnemy(enemy); 
+                    else 
+                        enemy.setVelocity(0,0);
+                } else
+                    this.reactivateEntity(enemy);
             });
+
         } else {
             this.createLocalPlayerReference();
             this.createLocalEnemyReference();
@@ -99,38 +104,29 @@ class MovementManager {
     }
 
     moveEnemy(enemy) { 
-        if (this.localEnemyReferenceCreated && this.localEnemyReferenceCreated) {
+        let diffX = enemy.x - this.player.x;
+        let diffY = enemy.y - this.player.y;
 
-            if (enemy.active && !enemy.defeated) {
-                let diffX = enemy.x - this.player.x;
-                let diffY = enemy.y - this.player.y;
-
-                //Move X
-                if (diffX < 0) {
-                    enemy.scaleX = 1;
-                    enemy.setVelocityX(ENEMY_SPEED);
-                    enemy.flipX = false;
-                } else {
-                    enemy.scaleX = 1;
-                    enemy.setVelocityX(-ENEMY_SPEED);
-                    enemy.flipX = true;
-                }
-                //Move Y
-                if (diffY < 0) {
-                    enemy.scaleY = 1;
-                    enemy.setVelocityY(ENEMY_SPEED);
-                } else {
-                    enemy.scaleY = 1;
-                    enemy.setVelocityY(-ENEMY_SPEED);
-                }
-            } else 
-                this.reactivateEntity(enemy);
+        //Move X
+        if (diffX < 0) {
+            enemy.scaleX = 1;
+            enemy.setVelocityX(ENEMY_SPEED);
+            enemy.flipX = false;
         } else {
-            this.createLocalPlayerReference();    
-            this.createLocalEnemyReference();    
-        }    
-    }
-
+            enemy.scaleX = 1;
+            enemy.setVelocityX(-ENEMY_SPEED);
+            enemy.flipX = true;
+        }
+        //Move Y
+        if (diffY < 0) {
+            enemy.scaleY = 1;
+            enemy.setVelocityY(ENEMY_SPEED);
+        } else {
+            enemy.scaleY = 1;
+            enemy.setVelocityY(-ENEMY_SPEED);
+        }
+    }    
+    
     shouldChase(enemy) {
         let currentDistance = this.getDistanceToPlayer(enemy);
         //console.log(currentDistance);

@@ -27,11 +27,10 @@ class GameWorld extends Phaser.Scene {
         this.physics.world.bounds.height = config.height;
         this.player.setCollideWorldBounds();
 
-        this.enemies = [];
         //Entierly new class (to differentiate enemies by ID).
         let enemy = new EnemyObject(this, 20,20, "baddie", 3, 0).setTintFill(0xadd8e6);
         let enemy2 = new EnemyObject(this, config.width - 20, 20, "baddie", 3, 1).setTintFill(0x90ee90);
-        this.enemies.push(enemy, enemy2);
+        this.enemies = [enemy, enemy2];
 
         this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
             //this.cameras.main.shake(300);
