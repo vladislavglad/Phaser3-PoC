@@ -22,6 +22,9 @@
 
     <!-- Content Scheduler -->
     <script defer src="scheduler.js"></script>
+
+    <!-- Outside scripts follow. -->
+    <script defer src="other.js"></script>
 </head>
 <body>
     <!-- Whole game world (made in Phaser3) -->
@@ -35,13 +38,9 @@
             <button style="font-size: xx-large;" onclick="switchWithCondition(false)">Wrong</button>
         </span>
     </div>
+
+    <!-- Another div that is manipulated through a separate file (other.js) -->
     <div class="gameModule" id="myDiv2" style="background-color:lightgreen">
-        <div style="font-size: 60px;">Something else</div><br>
-        <span>
-            <button style="font-size: xx-large;" onclick="switchWithCondition(true)">Correct</button>
-            <button style="font-size: xx-large;" onclick="switchWithCondition(false)">Wrong</button>
-        </span>
-    </div>
-    
+              
 </body>
 </html>
